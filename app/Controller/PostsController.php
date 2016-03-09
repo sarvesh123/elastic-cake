@@ -5,7 +5,6 @@ App::uses('AppController', 'Controller');
  *
  * @property Post $Post
  * @property PaginatorComponent $Paginator
- * @property SessionComponent $Session
  */
 class PostsController extends AppController {
 
@@ -14,7 +13,7 @@ class PostsController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Session');
+	public $components = array('Paginator');
 
 /**
  * index method
@@ -50,10 +49,10 @@ class PostsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Post->create();
 			if ($this->Post->save($this->request->data)) {
-				$this->Session->setFlash(__('The post has been saved.'));
+				$this->Flash->set(__('The post has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+				$this->Flash->set(__('The post could not be saved. Please, try again.'));
 			}
 		}
 	}
@@ -71,10 +70,10 @@ class PostsController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Post->save($this->request->data)) {
-				$this->Session->setFlash(__('The post has been saved.'));
+				$this->Flash->set(__('The post has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+				$this->Flash->set(__('The post could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
@@ -96,9 +95,9 @@ class PostsController extends AppController {
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Post->delete()) {
-			$this->Session->setFlash(__('The post has been deleted.'));
+			$this->Flash->set(__('The post has been deleted.'));
 		} else {
-			$this->Session->setFlash(__('The post could not be deleted. Please, try again.'));
+			$this->Flash->set(__('The post could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
