@@ -50,6 +50,9 @@ class PostsController extends AppController {
 			$this->Post->create();
 			if ($this->Post->save($this->request->data)) {
 				$this->Flash->set(__('The post has been saved.'));
+
+				$this->Post->createIndex($this->request->data);
+
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Flash->set(__('The post could not be saved. Please, try again.'));

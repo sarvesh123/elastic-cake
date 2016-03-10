@@ -1,5 +1,8 @@
 <?php
 App::uses('AppModel', 'Model');
+
+App::uses('HttpSocket', 'Network/Http');
+
 /**
  * Post Model
  *
@@ -40,4 +43,11 @@ class Post extends AppModel {
 			),
 		),
 	);
+
+	public function createIndex($data) {
+
+		$HttpSocket = new HttpSocket();
+
+		$HttpSocket->put( 'http://localhost:9200/elastic-cake/posts/_search?pretty', json_encode($data) );
+	}
 }
