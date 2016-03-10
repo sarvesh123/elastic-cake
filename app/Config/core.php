@@ -383,3 +383,8 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
+
+define( 'NODE', 'localhost' );
+define( 'PORT', '9200' );
+define( 'INDEX', 'elastic-cake' );
+define( 'ES_BASE_URL', 'http://' . NODE . ':' . PORT . '/' . INDEX );

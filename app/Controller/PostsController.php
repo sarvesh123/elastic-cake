@@ -51,7 +51,7 @@ class PostsController extends AppController {
 			if ($this->Post->save($this->request->data)) {
 				$this->Flash->set(__('The post has been saved.'));
 
-				$this->Post->createIndex($this->request->data);
+				$this->Post->createIndex($this->request->data['Post'], $this->Post->id);
 
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -74,6 +74,9 @@ class PostsController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Post->save($this->request->data)) {
 				$this->Flash->set(__('The post has been saved.'));
+
+				$this->Post->createIndex($this->request->data['Post'], $this->Post->id);
+
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Flash->set(__('The post could not be saved. Please, try again.'));

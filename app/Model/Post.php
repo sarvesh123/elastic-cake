@@ -44,10 +44,10 @@ class Post extends AppModel {
 		),
 	);
 
-	public function createIndex($data) {
+	public function createIndex( $data, $id ) {
 
 		$HttpSocket = new HttpSocket();
 
-		$HttpSocket->put( 'http://localhost:9200/elastic-cake/posts/_search?pretty', json_encode($data) );
+		$HttpSocket->put( ES_BASE_URL . '/posts/' . $id . '?pretty', json_encode($data) );
 	}
 }
