@@ -79,4 +79,29 @@ class Post extends AppModel {
 			
 		}
 	}
+
+	public function listAll() {
+
+		$HttpSocket = new HttpSocket();
+
+		try {
+			$resp = $HttpSocket->get( ES_BASE_URL . '/posts/_search?pretty' );			
+		} catch (Exception $e) {
+			
+		}
+
+		if ( $resp ) {
+			$temp = json_decode($resp, true);
+
+			$tArr = $temp['hits']['hits'];
+
+			foreach ($tArr as $key => $value) {
+				$fArr[]['Post'] = $value['_source'];
+			}
+			return $fArr;
+		}
+		else {
+			return false;
+		}
+	}
 }

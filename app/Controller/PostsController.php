@@ -21,8 +21,15 @@ class PostsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Post->recursive = 0;
-		$this->set('posts', $this->Paginator->paginate());
+
+		if ( $esPosts = $this->Post->listAll() ) {
+			debug($esPosts);
+			$this->set('posts', $esPosts);
+		}
+		else {
+			$this->Post->recursive = 0;
+			$this->set('posts', $this->Paginator->paginate());
+		}
 	}
 
 /**
