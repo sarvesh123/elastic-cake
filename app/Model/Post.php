@@ -44,10 +44,39 @@ class Post extends AppModel {
 		),
 	);
 
-	public function createIndex( $data, $id ) {
+	public function queryDoc( $id ) {
 
 		$HttpSocket = new HttpSocket();
 
-		$HttpSocket->put( ES_BASE_URL . '/posts/' . $id . '?pretty', json_encode($data) );
+		try {
+			$response = $HttpSocket->get( ES_BASE_URL . '/posts/' . $id . '?pretty' );
+		} catch (Exception $e) {
+			
+		}
+		
+		if ( isset( $response ) ) {
+
+			$temp = json_decode( $response->body, true );
+
+			$arr['Post'] = $temp['_source'];
+
+			return $arr;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public function createIndex( $id ) {
+
+		$data = $this->findById($id);
+
+		$HttpSocket = new HttpSocket();
+
+		try {
+			$HttpSocket->put( ES_BASE_URL . '/posts/' . $id . '?pretty', json_encode($data['Post']) );			
+		} catch (Exception $e) {
+			
+		}
 	}
 }

@@ -33,11 +33,17 @@ class PostsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->Post->exists($id)) {
-			throw new NotFoundException(__('Invalid post'));
+
+		if ($esPost = $this->Post->queryDoc($id)) {
+			$this->set('post', $esPost);
 		}
-		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
-		$this->set('post', $this->Post->find('first', $options));
+		else {
+			if (!$this->Post->exists($id)) {
+				throw new NotFoundException(__('Invalid post'));
+			}
+			$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
+			$this->set('post', $this->Post->find('first', $options));
+		}
 	}
 
 /**
@@ -51,7 +57,7 @@ class PostsController extends AppController {
 			if ($this->Post->save($this->request->data)) {
 				$this->Flash->set(__('The post has been saved.'));
 
-				$this->Post->createIndex($this->request->data['Post'], $this->Post->id);
+				$this->Post->createIndex($this->Post->id);
 
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -75,7 +81,7 @@ class PostsController extends AppController {
 			if ($this->Post->save($this->request->data)) {
 				$this->Flash->set(__('The post has been saved.'));
 
-				$this->Post->createIndex($this->request->data['Post'], $this->Post->id);
+				$this->Post->createIndex($this->Post->id);
 
 				return $this->redirect(array('action' => 'index'));
 			} else {
