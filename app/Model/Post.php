@@ -80,17 +80,23 @@ class Post extends AppModel {
 		}
 	}
 
-	public function listAll() {
+	public function listAll( $keyword ) {
 
 		$HttpSocket = new HttpSocket();
-
+        
+        $query = array('query' => array(
+            'match' => array(
+                'title' => $keyword
+            )
+        ));
+        
 		try {
-			$resp = $HttpSocket->get( ES_BASE_URL . '/posts/_search?pretty' );			
+			$resp = $HttpSocket->post( ES_BASE_URL . '/posts/_search?pretty', json_encode( $query ) );			
 		} catch (Exception $e) {
 			
 		}
-
-		if ( $resp ) {
+        
+		if ( isset( $resp ) ) {
 			$temp = json_decode($resp, true);
 
 			$tArr = $temp['hits']['hits'];

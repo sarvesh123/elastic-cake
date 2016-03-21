@@ -22,14 +22,8 @@ class PostsController extends AppController {
  */
 	public function index() {
 
-		if ( $esPosts = $this->Post->listAll() ) {
-			debug($esPosts);
-			$this->set('posts', $esPosts);
-		}
-		else {
-			$this->Post->recursive = 0;
-			$this->set('posts', $this->Paginator->paginate());
-		}
+		$this->Post->recursive = 0;
+		$this->set('posts', $this->Paginator->paginate());
 	}
 
 /**
@@ -119,5 +113,9 @@ class PostsController extends AppController {
 			$this->Flash->set(__('The post could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function search( $keyword ) {
+		$this->set('posts', $this->Post->listAll($keyword));
 	}
 }
