@@ -115,7 +115,7 @@ class PostsController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
-	public function search( $keyword ) {
-		$this->set('posts', $this->Post->listAll($keyword));
+	public function search( $keyword = false ) {
+        $this->set('posts', $this->Post->listAll($keyword));
 	}
 }

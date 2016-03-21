@@ -80,31 +80,43 @@ class Post extends AppModel {
 		}
 	}
 
-	public function listAll( $keyword ) {
+	public function listAll( $keyword = false ) {
 
 		$HttpSocket = new HttpSocket();
         
-        $query = array('query' => array(
-            'match' => array(
-                'title' => $keyword
-            )
-        ));
-        
+        if ( $keyword ) {
+            $query = array('query' => array(
+                'match' => array(
+                    'title' => $keyword
+                )
+            ));
+        }
+        else {
+            $query = array('query' => array(
+                'match_all' => array()
+            ));
+        } 
+                
 		try {
 			$resp = $HttpSocket->post( ES_BASE_URL . '/posts/_search?pretty', json_encode( $query ) );			
 		} catch (Exception $e) {
 			
 		}
-        
+
 		if ( isset( $resp ) ) {
 			$temp = json_decode($resp, true);
 
-			$tArr = $temp['hits']['hits'];
-
-			foreach ($tArr as $key => $value) {
-				$fArr[]['Post'] = $value['_source'];
-			}
-			return $fArr;
+            if ( $temp['hits']['total'] > 0 ) {
+    			$tArr = $temp['hits']['hits'];
+    
+    			foreach ($tArr as $key => $value) {
+    				$fArr[]['Post'] = $value['_source'];
+    			}
+    			return $fArr;
+            }
+            else {
+                return false;
+            }
 		}
 		else {
 			return false;
