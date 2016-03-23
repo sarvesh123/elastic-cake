@@ -30,4 +30,17 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+
+	public function makeSearchString( $keyboard ) {
+		$tempArr = explode(',', $keyboard);
+		$temp = $this->stripKeys( $tempArr );
+		return implode(' ', $temp);
+	}
+
+	public function stripKeys( $arr ) {
+		foreach ($arr as $key => $value) {
+			$resp[$key] = trim( $value );
+		}
+		return $resp;
+	}
 }

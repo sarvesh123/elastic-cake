@@ -83,11 +83,13 @@ class Post extends AppModel {
 	public function listAll( $keyword = false ) {
 
 		$HttpSocket = new HttpSocket();
-        
+
         if ( $keyword ) {
+
+        	$str = $this->makeSearchString( $keyword );
             $query = array('query' => array(
                 'match' => array(
-                    'title' => $keyword
+                    'title' => $str
                 )
             ));
         }
