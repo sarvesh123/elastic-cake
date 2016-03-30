@@ -80,25 +80,27 @@ class Post extends AppModel {
 		}
 	}
 
-	public function listAll( $keyword = false ) {
+	public function listAll( $keyword = false, $price_max = false, $price_min = false ) {
 
 		$HttpSocket = new HttpSocket();
 
         if ( $keyword ) {
 
         	$str = $this->makeSearchString( $keyword );
-            $query = array('query' => array(
+            $matchQuery = array(
                 'match' => array(
                     'title' => $str
                 )
-            ));
+            );
         }
         else {
-            $query = array('query' => array(
+            $matchQuery = array(
                 'match_all' => array()
-            ));
-        } 
-                
+            );
+        }
+
+        $query = array('query' => $matchQuery );
+
 		try {
 			$resp = $HttpSocket->post( ES_BASE_URL . '/posts/_search?pretty', json_encode( $query ) );			
 		} catch (Exception $e) {

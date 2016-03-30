@@ -116,6 +116,16 @@ class PostsController extends AppController {
 	}
 
 	public function search( $keyword = false ) {
-        $this->set('posts', $this->Post->listAll($keyword));
+
+		$maxPrice = false; $minPrice = false;
+
+		if ( isset( $this->request->params['named']['max-price'] ) ) {
+			$maxPrice = $this->request->params['named']['max-price'];
+		}
+		if ( isset( $this->request->params['named']['min-price'] ) ) {
+			$minPrice = $this->request->params['named']['min-price'];
+		}
+
+        $this->set( 'posts', $this->Post->listAll( $keyword, $maxPrice, $minPrice ) );
 	}
 }

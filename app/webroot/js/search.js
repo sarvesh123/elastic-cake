@@ -6,5 +6,15 @@ function focusToEnd(elem) {
 focusToEnd(document.getElementById('search'));
 
 function submitSearch() {
-	window.location.href = '/posts/search/' + document.getElementById('search').value;
+
+	var searchStr = '/posts/search/' + document.getElementById('search').value;
+	
+	if ( document.getElementById('max-price').value ) {
+		searchStr += '/max-price:' + document.getElementById('max-price').value;
+	}
+	if ( document.getElementById('min-price').value ) {
+		searchStr += '/min-price:' + document.getElementById('min-price').value;
+	}
+
+	window.location.href = searchStr;
 }

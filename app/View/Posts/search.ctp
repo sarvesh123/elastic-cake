@@ -6,6 +6,7 @@
     	<tr>
     			<th><?php echo $this->Paginator->sort('id'); ?></th>
     			<th><?php echo $this->Paginator->sort('title'); ?></th>
+                <th><?php echo $this->Paginator->sort('price'); ?></th>
     			<th><?php echo $this->Paginator->sort('body'); ?></th>
     			<th><?php echo $this->Paginator->sort('created'); ?></th>
     			<th><?php echo $this->Paginator->sort('modified'); ?></th>
@@ -17,6 +18,7 @@
     	<tr>
     		<td><?php echo h($post['Post']['id']); ?>&nbsp;</td>
     		<td><?php echo h($post['Post']['title']); ?>&nbsp;</td>
+            <td><?php echo h($post['Post']['price']); ?>&nbsp;</td>
     		<td><?php echo h($post['Post']['body']); ?>&nbsp;</td>
     		<td><?php echo h($post['Post']['created']); ?>&nbsp;</td>
     		<td><?php echo h($post['Post']['modified']); ?>&nbsp;</td>
@@ -35,11 +37,10 @@
 	<form>
 		<ul>
 			<li><input id="search" type="text" name="search" placeholder="Search" value="<?php echo isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0]: ''; ?>" ></li>
-			<li><input type="submit" onclick="submitSearch();return false;"></li>
-		</ul>
+            <li><input id="max-price" type="text" name="max-price" placeholder="Max Price" value="" ></li>
+            <li><input id="min-price" type="text" name="min-price" placeholder="Min Price" value="" ></li>
+            <li><input type="submit" onclick="submitSearch();return false;"></li>
+        </ul>
 	</form>
-
-	<h3><?php echo __('Filter'); ?></h3>
-
 </div>
 <script type="text/javascript" src="/js/search.js"></script>
