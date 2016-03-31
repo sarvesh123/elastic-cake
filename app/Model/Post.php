@@ -88,18 +88,46 @@ class Post extends AppModel {
 
         	$str = $this->makeSearchString( $keyword );
             $matchQuery = array(
-                'match' => array(
-                    'title' => $str
+                'must' => array( 
+                	'match' => array(
+                    	'title' => $str
+                	)
                 )
             );
         }
         else {
             $matchQuery = array(
-                'match_all' => array()
+            	'must' => array(
+                	'match_all' => array()
+                )
             );
         }
 
-        $query = array('query' => $matchQuery );
+        $filter = array();
+        $gte = array();
+        $lte = array();
+
+        if ( $price_min ) {
+        	$gte = array( 'gte' => $price_min );
+        }
+
+        if ( $price_max ) {
+        	$lte = array( 'lte' => $price_max );
+        }
+
+        if ( $price_min || $price_max ) {
+	        $filter = array(
+	        	'filter' => array(
+		        	'range' => array( 
+		        		'price' => array_merge( $gte, $lte )
+		        	)
+		        )
+	        );
+	    }
+
+        $query = array( 'query' => array( 'bool' => array_merge( $matchQuery, $filter ) ) );
+
+        debug( json_encode( $query ) );
 
 		try {
 			$resp = $HttpSocket->post( ES_BASE_URL . '/posts/_search?pretty', json_encode( $query ) );			

@@ -37,8 +37,8 @@
 	<form>
 		<ul>
 			<li><input id="search" type="text" name="search" placeholder="Search" value="<?php echo isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0]: ''; ?>" ></li>
-            <li><input id="max-price" type="text" name="max-price" placeholder="Max Price" value="" ></li>
-            <li><input id="min-price" type="text" name="min-price" placeholder="Min Price" value="" ></li>
+            <li><input id="max-price" type="text" name="max-price" placeholder="Max Price" value="<?php echo isset($this->request->params['named']['max-price']) ? $this->request->params['named']['max-price']: ''; ?>" ></li>
+            <li><input id="min-price" type="text" name="min-price" placeholder="Min Price" value="<?php echo isset($this->request->params['named']['min-price']) ? $this->request->params['named']['min-price']: ''; ?>" ></li>
             <li><input type="submit" onclick="submitSearch();return false;"></li>
         </ul>
 	</form>
